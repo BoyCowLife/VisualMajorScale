@@ -1,12 +1,11 @@
-// Major scale intervals (always the same for major scales)
-        const MAJOR_SCALE_INTERVALS = [2, 2, 1, 2, 2, 2, 1];<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visual Major Scale</title>
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiVmlzdWFsIE1ham9yIFNjYWxlIiwic2hvcnRfbmFtZSI6IlZpc3VhbFNjYWxlIiwic3RhcnRfdXJsIjoiLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMxYTIzMzIiLCJ0aGVtZV9jb2xvciI6IiM0Mjk5ZTEiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2c5SWpBZ01DQXhNREFnTVRBd0lpQjNhV1IwYUQwaU1UQXdJaUJvWldsbmFIUTlJakV3TUNJaUlHWnBiR3c5SWlOalpqZzBPRG9pUGp4d1lYUm9JR1E5SWsweE1DQXlNRXd5TUNBME1Fd3pNQ0F5TUV3ME1DQXpNRXcxTUNBeE1GSmtNQ0F4TUZ3eU1DQTNNV3d5TUNBeVNIeE1VekZ4TTJZM1N6bE5SRFk1ZFM1dU1EQXdObEI1T0c5NmNIUndaV2xuUzI1dVdUTlZVek5qWWpaUmFYOWlVVUVpTDM0OEwyWnZjbVZwWjI1UFltcGxZM1ErUEM5emRtYysiLCJzaXplcyI6IjE5MngxOTIiLCJ0eXBlIjoiaW1hZ2Uvc3ZnK3htbCJ9XX0=">
-    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2NmODRkOCI+PHBhdGggZD0iTTEwIDIwTDIwIDQwTDMwIDIwTDQwIDMwTDUwIDEwUmQwIDEwXDIwIDdxdzNmN0s5TkQ2OXU1bjAwNlB5TzlvenB0d2VnahEtuWY3VVMzY2I2UWlPYlFFIi8+PC9mb3JlaWduT2JqZWN0Pjwvc3ZnPg==" type="image/svg+xml">
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiVmlzdWFsIE1ham9yIFNjYWxlIiwic2hvcnRfbmFtZSI6IlZpc3VhbFNjYWxlIiwic3RhcnRfdXJsIjoiLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMxYTIzMzIiLCJ0aGVtZV9jb2xvciI6IiM0Mjk5ZTEiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2c5SWpBZ01DQXhNakFnT0RBaUlIZHBaSFJvUFNJeE1qQWlJR2hsYVdkb2REMGlPREFpUGp4eVpXTjBJSGc5SWpBaUlIazlJakFpSUhkcFpIUm9QU0l4TWpBaUlHaGxhV2RvZEQwaU9EQWlJSEo0UFNJeE1DSWdabWxzYkQwaUl6RmhNak16TWlJdlBqeG5JSHBwY0QwaWJtOXVaU0krUEdkUFVGUWpHRklnVFVGS1QxSWdSMHhMT0ZVblFrVUtFQldCQjIzYzJjM1JqVTJyZWUzM3BhVDQ4UjNYQjlLaGhNTXNOSmIxdXBTTE03TTlKalJCQXBlUE1ERkxqZnNPUlJlOXNrS280eFVBbWlsaVkzTEYzOGZYOGc4VE5lYzRvNVFPV3hFOUF6amx2T1M0Y3VKZzZaOE1UaFZEZEhNRG03WjdOZjJxdG5iM0RTZGVmdGc5Y0gyUEVSZkJnUklKRlBoYWJINUVQOCIsInNpemVzIjoiMTkyeDE5MiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dfQ==">
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgODAiIHdpZHRoPSIxMjAiIGhlaWdodD0iODAiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMjAiIGhlaWdodD0iODAiIHJ4PSIxMCIgZmlsbD0iIzFhMjMzMiIvPjxnIHppcD0ibm9uZSI+PGcgaWQ9ImtleXMiPjx0ZXh0IHg9IjYwIiB5PSIyNSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM0Mjk5ZTEiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkMgTWFqb3I8L3RleHQ+PHJlY3QgeD0iMTAiIHk9IjMwIiB3aWR0aD0iMTIiIGhlaWdodD0iNDAiIGZpbGw9IiNmZmZmZmYiIHJ4PSIyIi8+PHJlY3QgeD0iMjQiIHk9IjMwIiB3aWR0aD0iMTIiIGhlaWdodD0iNDAiIGZpbGw9IiNhNzhiZmEiIHJ4PSIyIi8+PHJlY3QgeD0iMzgiIHk9IjMwIiB3aWR0aD0iMTIiIGhlaWdodD0iNDAiIGZpbGw9IiNhNzhiZmEiIHJ4PSIyIi8+PHJlY3QgeD0iNTIiIHk9IjMwIiB3aWR0aD0iMTIiIGhlaWdodD0iNDAiIGZpbGw9IiNmZmZmZmYiIHJ4PSIyIi8+PHJlY3QgeD0iNjYiIHk9IjMwIiB3aWR0aD0iMTIiIGhlaWdodD0iNDAiIGZpbGw9IiNhNzhiZmEiIHJ4PSIyIi8+PHJlY3QgeD0iODAiIHk9IjMwIiB3aWR0aD0iMTIiIGhlaWdodD0iNDAiIGZpbGw9IiNhNzhiZmEiIHJ4PSIyIi8+PHJlY3QgeD0iOTQiIHk9IjMwIiB3aWR0aD0iMTIiIGhlaWdodD0iNDAiIGZpbGw9IiNhNzhiZmEiIHJ4PSIyIi8+PHJlY3QgeD0iMTciIHk9IjMwIiB3aWR0aD0iOCIgaGVpZ2h0PSIyNSIgZmlsbD0iIzNiODJmNiIgcng9IjEiLz48cmVjdCB4PSI0NSIgeT0iMzAiIHdpZHRoPSI4IiBoZWlnaHQ9IjI1IiBmaWxsPSIjM2I4MmY2IiByeD0iMSIvPjxyZWN0IHg9IjU5IiB5PSIzMCIgd2lkdGg9IjgiIGhlaWdodD0iMjUiIGZpbGw9IiMzYjgyZjYiIHJ4PSIxIi8+PHJlY3QgeD0iNzMiIHk9IjMwIiB3aWR0aD0iOCIgaGVpZ2h0PSIyNSIgZmlsbD0iIzNiODJmNiIgcng9IjEiLz48cmVjdCB4PSI4NyIgeT0iMzAiIHdpZHRoPSI4IiBoZWlnaHQ9IjI1IiBmaWxsPSIjM2I4MmY2IiByeD0iMSIvPjwvZz48L2c+PC9zdmc+" type="image/svg+xml">
     <style>
         * {
             margin: 0;
@@ -190,8 +189,6 @@
             margin-bottom: 20px;
             color: #4299e1;
         }
-
-
 
         .keyboards-container {
             display: grid;
@@ -390,7 +387,6 @@
             <p class="subtitle">Riconoscimento scale maggiori ad intervalli</p>
         </header>
 
-        <!-- Menu Screen -->
         <div class="menu-screen active" id="menuScreen">
             <div class="config-section">
                 <h3>🎵 Scala di Partenza</h3>
@@ -432,7 +428,6 @@
             <button class="start-btn" id="startQuiz" disabled>🚀 Inizia Quiz (30 scale maggiori)</button>
         </div>
 
-        <!-- Quiz Screen -->
         <div class="quiz-screen" id="quizScreen">
             <div class="quiz-header">
                 <button class="back-btn" id="backToMenu">← Menu</button>
@@ -462,19 +457,16 @@
     </div>
 
     <script>
-        // Major scale intervals (always the same for major scales)
+        // Ora la costante MAJOR_SCALE_INTERVALS viene effettivamente utilizzata!
         const MAJOR_SCALE_INTERVALS = [2, 2, 1, 2, 2, 2, 1];
         
-        // Musical notes with both sharps and flats for variety
         const NOTES_POOL = [
             'C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 
             'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'Bb', 'B'
         ];
         
-        // Chromatic scale for interval calculations (using sharps only for math)
         const NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
         
-        // Enharmonic equivalents mapping
         const ENHARMONIC_MAP = {
             'C#': ['C#', 'Db'],
             'D#': ['D#', 'Eb'], 
@@ -483,15 +475,23 @@
             'A#': ['A#', 'Bb']
         };
 
-        function getEnharmonicVariant(note) {
-            // Return a random enharmonic equivalent or the original note
-            // This is now only used for choosing scale keys, not scale notes
-            if (ENHARMONIC_MAP[note] && Math.random() > 0.5) {
-                const variants = ENHARMONIC_MAP[note];
-                return variants[Math.floor(Math.random() * variants.length)];
-            }
-            return note;
-        }
+        // Manteniamo le scale pre-calcolate come riferimento e fallback
+        const MAJOR_SCALES = {
+            'C': ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
+            'C#': ['C#', 'D#', 'E#', 'F#', 'G#', 'A#', 'B#'],
+            'Db': ['Db', 'Eb', 'F', 'Gb', 'Ab', 'Bb', 'C'],
+            'D': ['D', 'E', 'F#', 'G', 'A', 'B', 'C#'],
+            'Eb': ['Eb', 'F', 'G', 'Ab', 'Bb', 'C', 'D'],
+            'E': ['E', 'F#', 'G#', 'A', 'B', 'C#', 'D#'],
+            'F': ['F', 'G', 'A', 'Bb', 'C', 'D', 'E'],
+            'F#': ['F#', 'G#', 'A#', 'B', 'C#', 'D#', 'E#'],
+            'Gb': ['Gb', 'Ab', 'Bb', 'Cb', 'Db', 'Eb', 'F'],
+            'G': ['G', 'A', 'B', 'C', 'D', 'E', 'F#'],
+            'Ab': ['Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'G'],
+            'A': ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#'],
+            'Bb': ['Bb', 'C', 'D', 'Eb', 'F', 'G', 'A'],
+            'B': ['B', 'C#', 'D#', 'E', 'F#', 'G#', 'A#']
+        };
         
         const INTERVAL_NAMES = {
             1: '1/2 Tono',
@@ -521,19 +521,16 @@
             keyboardOptions: []
         };
 
-        // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
             initializeMenuHandlers();
             generate4Keyboards();
             
-            // PWA installation
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('data:text/javascript;base64,');
             }
         });
 
         function initializeMenuHandlers() {
-            // Root note selection
             document.getElementById('rootNoteOptions').addEventListener('click', function(e) {
                 if (e.target.classList.contains('option-btn')) {
                     document.querySelectorAll('#rootNoteOptions .option-btn').forEach(btn => 
@@ -544,7 +541,6 @@
                 }
             });
 
-            // Interval selection
             document.getElementById('intervalOptions').addEventListener('click', function(e) {
                 if (e.target.classList.contains('option-btn')) {
                     document.querySelectorAll('#intervalOptions .option-btn').forEach(btn => 
@@ -555,16 +551,9 @@
                 }
             });
 
-            // Start quiz
             document.getElementById('startQuiz').addEventListener('click', startQuiz);
-            
-            // Back to menu
             document.getElementById('backToMenu').addEventListener('click', showMenu);
-            
-            // Restart quiz
             document.getElementById('restartQuiz').addEventListener('click', startQuiz);
-            
-            // Next question
             document.getElementById('nextQuestion').addEventListener('click', nextQuestion);
         }
 
@@ -583,11 +572,9 @@
             pianoKeys.className = 'piano-keys';
             pianoKeys.id = `pianoKeys${keyboardIndex}`;
 
-            // Generate 3 octaves starting from C for better visibility
             const whiteNotes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
             
             for (let octave = 0; octave < 3; octave++) {
-                // Add white keys
                 whiteNotes.forEach((note, index) => {
                     const whiteKey = document.createElement('div');
                     whiteKey.className = 'white-key';
@@ -596,21 +583,17 @@
                 });
             }
 
-            // Add black keys with precise positioning
             const blackKeyData = [
-                // First octave
                 { note: 'C#3', afterWhiteIndex: 0 },
                 { note: 'D#3', afterWhiteIndex: 1 },
                 { note: 'F#3', afterWhiteIndex: 3 },
                 { note: 'G#3', afterWhiteIndex: 4 },
                 { note: 'A#3', afterWhiteIndex: 5 },
-                // Second octave
                 { note: 'C#4', afterWhiteIndex: 7 },
                 { note: 'D#4', afterWhiteIndex: 8 },
                 { note: 'F#4', afterWhiteIndex: 10 },
                 { note: 'G#4', afterWhiteIndex: 11 },
                 { note: 'A#4', afterWhiteIndex: 12 },
-                // Third octave
                 { note: 'C#5', afterWhiteIndex: 14 },
                 { note: 'D#5', afterWhiteIndex: 15 },
                 { note: 'F#5', afterWhiteIndex: 17 },
@@ -627,7 +610,6 @@
                 pianoKeys.appendChild(blackKey);
             });
 
-            // Position black keys after render to handle responsive sizing
             setTimeout(() => {
                 const whiteKeys = pianoKeys.querySelectorAll('.white-key');
                 const blackKeys = pianoKeys.querySelectorAll('.black-key');
@@ -665,36 +647,57 @@
             }
         }
 
-        // Correct major scale patterns for each key
-        const MAJOR_SCALES = {
-            'C': ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
-            'C#': ['C#', 'D#', 'E#', 'F#', 'G#', 'A#', 'B#'],
-            'Db': ['Db', 'Eb', 'F', 'Gb', 'Ab', 'Bb', 'C'],
-            'D': ['D', 'E', 'F#', 'G', 'A', 'B', 'C#'],
-            'D#': ['D#', 'E#', 'Fx', 'G#', 'A#', 'B#', 'Cx'],
-            'Eb': ['Eb', 'F', 'G', 'Ab', 'Bb', 'C', 'D'],
-            'E': ['E', 'F#', 'G#', 'A', 'B', 'C#', 'D#'],
-            'F': ['F', 'G', 'A', 'Bb', 'C', 'D', 'E'],
-            'F#': ['F#', 'G#', 'A#', 'B', 'C#', 'D#', 'E#'],
-            'Gb': ['Gb', 'Ab', 'Bb', 'Cb', 'Db', 'Eb', 'F'],
-            'G': ['G', 'A', 'B', 'C', 'D', 'E', 'F#'],
-            'G#': ['G#', 'A#', 'B#', 'C#', 'D#', 'E#', 'Fx'],
-            'Ab': ['Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'G'],
-            'A': ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#'],
-            'A#': ['A#', 'B#', 'Cx', 'D#', 'E#', 'Fx', 'Gx'],
-            'Bb': ['Bb', 'C', 'D', 'Eb', 'F', 'G', 'A'],
-            'B': ['B', 'C#', 'D#', 'E', 'F#', 'G#', 'A#']
-        };
-
+        // Funzione aggiornata che usa gli intervalli per generare le scale!
         function generateMajorScale(rootNote) {
-            // Use predefined correct scale patterns
-            return MAJOR_SCALES[rootNote] || MAJOR_SCALES['C'];
+            // Prima controlla se abbiamo una scala pre-calcolata come fallback
+            const precalculated = MAJOR_SCALES[rootNote];
+            if (precalculated) {
+                console.log(`Usando scala pre-calcolata per ${rootNote}:`, precalculated);
+                return precalculated;
+            }
+            
+            console.log(`Generando dinamicamente scala per ${rootNote} usando intervalli:`, MAJOR_SCALE_INTERVALS);
+            
+            // Genera dinamicamente la scala usando gli intervalli
+            const scale = [rootNote];
+            
+            // Converti la nota root in formato standard per i calcoli
+            const flatToSharp = {'Db': 'C#', 'Eb': 'D#', 'Gb': 'F#', 'Ab': 'G#', 'Bb': 'A#'};
+            let currentNote = flatToSharp[rootNote] || rootNote;
+            let currentIndex = NOTES.indexOf(currentNote);
+            
+            if (currentIndex === -1) {
+                console.warn(`Nota non riconosciuta: ${rootNote}, usando C`);
+                return MAJOR_SCALES['C'];
+            }
+            
+            // Genera le restanti 6 note della scala usando MAJOR_SCALE_INTERVALS
+            for (let i = 0; i < MAJOR_SCALE_INTERVALS.length - 1; i++) {
+                currentIndex = (currentIndex + MAJOR_SCALE_INTERVALS[i]) % 12;
+                const nextNote = NOTES[currentIndex];
+                
+                // Converti back alle enarmoniche appropriate se necessario
+                let displayNote = nextNote;
+                if (ENHARMONIC_MAP[nextNote] && shouldUseFlat(rootNote)) {
+                    const flatVersion = ENHARMONIC_MAP[nextNote].find(note => note.includes('b'));
+                    if (flatVersion) displayNote = flatVersion;
+                }
+                
+                scale.push(displayNote);
+            }
+            
+            console.log(`Scala generata dinamicamente per ${rootNote}:`, scale);
+            return scale;
+        }
+        
+        function shouldUseFlat(rootNote) {
+            const flatKeys = ['Db', 'Eb', 'Gb', 'Ab', 'Bb', 'F'];
+            return flatKeys.includes(rootNote);
         }
 
         function generateScaleProgression(startNote, interval, count) {
             const progression = [];
             
-            // Convert flat notes to sharp equivalents for calculation
             let calculationNote = startNote;
             const flatToSharp = {
                 'Db': 'C#', 'Eb': 'D#', 'Gb': 'F#', 'Ab': 'G#', 'Bb': 'A#'
@@ -708,19 +711,16 @@
             for (let i = 0; i < count; i++) {
                 const currentNote = NOTES[currentNoteIndex];
                 
-                // Choose enharmonic equivalent intelligently
                 let displayNote = currentNote;
                 if (ENHARMONIC_MAP[currentNote]) {
-                    // Favor common flat keys: Bb, Eb, Ab, Db, Gb, F
                     const preferredFlats = ['Bb', 'Eb', 'Ab', 'Db', 'Gb'];
                     const flatVersion = ENHARMONIC_MAP[currentNote].find(note => 
                         preferredFlats.includes(note)
                     );
                     
-                    if (flatVersion && Math.random() > 0.3) { // 70% chance to use flat if it's common
+                    if (flatVersion && Math.random() > 0.3) {
                         displayNote = flatVersion;
                     } else {
-                        // Random choice between sharp and flat
                         const variants = ENHARMONIC_MAP[currentNote];
                         displayNote = variants[Math.floor(Math.random() * variants.length)];
                     }
@@ -776,17 +776,14 @@
         }
 
         function generateKeyboardOptions(correctNote) {
-            // Generate 3 wrong answers ensuring variety of sharps and flats
             const wrongAnswers = [];
             const usedNotes = [correctNote];
             
-            // Available notes for wrong answers
             const availableNotes = ['C', 'C#', 'Db', 'D', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
             
             while (wrongAnswers.length < 3) {
                 const randomNote = availableNotes[Math.floor(Math.random() * availableNotes.length)];
                 
-                // Avoid using the same enharmonic as the correct answer
                 const flatToSharp = {'Db': 'C#', 'Eb': 'D#', 'Gb': 'F#', 'Ab': 'G#', 'Bb': 'A#'};
                 const normalizeForComparison = (note) => flatToSharp[note] || note;
                 
@@ -825,7 +822,6 @@
                 keys.forEach(key => {
                     const keyNote = key.dataset.note.replace(/[0-9]/g, '');
                     
-                    // Map theoretical notes to keyboard notes
                     const noteMap = {
                         'E#': 'F', 'B#': 'C', 'Cb': 'B', 'Fb': 'E',
                         'Fx': 'G', 'Cx': 'D', 'Gx': 'A', 'Dx': 'E', 'Ax': 'B', 'Ex': 'F#'
@@ -855,7 +851,6 @@
                 keyboard.classList.add('correct');
                 showFeedback(`Corretto! È la scala di ${currentScale.rootNote} Maggiore 🎉`, 'correct');
                 
-                // Auto advance to next question after 1.5 seconds
                 if (quizState.currentQuestion < quizState.totalQuestions - 1) {
                     setTimeout(() => {
                         nextQuestion();
@@ -871,7 +866,6 @@
                     }
                 });
                 
-                // Show note names for both scales
                 const correctScale = generateMajorScale(currentScale.rootNote);
                 const selectedScale = generateMajorScale(selectedOption.note);
                 
@@ -880,7 +874,6 @@
                 
                 showFeedback(`Sbagliato! Hai scelto ${selectedOption.note} Maggiore (${selectedNotes}). Era ${currentScale.rootNote} Maggiore (${correctNotes}).`, 'incorrect');
                 
-                // Show next button only for incorrect answers
                 if (quizState.currentQuestion < quizState.totalQuestions - 1) {
                     document.getElementById('nextQuestion').style.display = 'block';
                 } else {
