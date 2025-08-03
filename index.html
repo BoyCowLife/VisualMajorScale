@@ -1,0 +1,944 @@
+// Major scale intervals (always the same for major scales)
+        const MAJOR_SCALE_INTERVALS = [2, 2, 1, 2, 2, 2, 1];<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Major Scale</title>
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiVmlzdWFsIE1ham9yIFNjYWxlIiwic2hvcnRfbmFtZSI6IlZpc3VhbFNjYWxlIiwic3RhcnRfdXJsIjoiLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMxYTIzMzIiLCJ0aGVtZV9jb2xvciI6IiM0Mjk5ZTEiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2c5SWpBZ01DQXhNREFnTVRBd0lpQjNhV1IwYUQwaU1UQXdJaUJvWldsbmFIUTlJakV3TUNJaUlHWnBiR3c5SWlOalpqZzBPRG9pUGp4d1lYUm9JR1E5SWsweE1DQXlNRXd5TUNBME1Fd3pNQ0F5TUV3ME1DQXpNRXcxTUNBeE1GSmtNQ0F4TUZ3eU1DQTNNV3d5TUNBeVNIeE1VekZ4TTJZM1N6bE5SRFk1ZFM1dU1EQXdObEI1T0c5NmNIUndaV2xuUzI1dVdUTlZVek5qWWpaUmFYOWlVVUVpTDM0OEwyWnZjbVZwWjI1UFltcGxZM1ErUEM5emRtYysiLCJzaXplcyI6IjE5MngxOTIiLCJ0eXBlIjoiaW1hZ2Uvc3ZnK3htbCJ9XX0=">
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2NmODRkOCI+PHBhdGggZD0iTTEwIDIwTDIwIDQwTDMwIDIwTDQwIDMwTDUwIDEwUmQwIDEwXDIwIDdxdzNmN0s5TkQ2OXU1bjAwNlB5TzlvenB0d2VnahEtuWY3VVMzY2I2UWlPYlFFIi8+PC9mb3JlaWduT2JqZWN0Pjwvc3ZnPg==" type="image/svg+xml">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2332 0%, #2d3748 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #4299e1, #2b6cb0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #a0aec0;
+            font-size: 1.1rem;
+        }
+
+        .menu-screen, .quiz-screen {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .menu-screen.active, .quiz-screen.active {
+            display: block;
+        }
+
+        .config-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .config-section h3 {
+            color: #4299e1;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+
+        .interval-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .option-btn {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            border: 2px solid rgba(66, 153, 225, 0.3);
+            color: #e2e8f0;
+            padding: 8px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .option-btn:hover {
+            border-color: #4299e1;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+        }
+
+        .option-btn.selected {
+            background: linear-gradient(135deg, #4299e1 0%, #2b6cb0 100%);
+            border-color: #4299e1;
+            color: white;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+        }
+
+        .start-btn:disabled {
+            background: #4a5568;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .quiz-counter {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .score {
+            background: linear-gradient(135deg, #4299e1 0%, #2b6cb0 100%);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(113, 128, 150, 0.4);
+        }
+
+        .question-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .question-title {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: #4299e1;
+        }
+
+
+
+        .keyboards-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .keyboard {
+            background: #2d3748;
+            border-radius: 12px;
+            padding: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            position: relative;
+        }
+
+        .keyboard:hover {
+            border-color: #4299e1;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(66, 153, 225, 0.3);
+        }
+
+        .keyboard.correct {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            border-color: #48bb78;
+            box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+        }
+
+        .keyboard.incorrect {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            border-color: #f56565;
+            box-shadow: 0 6px 20px rgba(245, 101, 101, 0.4);
+        }
+
+        .piano-keys {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto;
+            height: 70px;
+        }
+
+        .white-key {
+            width: 20px;
+            height: 70px;
+            background: linear-gradient(to bottom, #ffffff 0%, #f7fafc 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 0 0 3px 3px;
+            margin-right: 1px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .white-key:hover {
+            background: linear-gradient(to bottom, #f7fafc 0%, #edf2f7 100%);
+            transform: translateY(1px);
+        }
+
+        .white-key.highlighted {
+            background: linear-gradient(to bottom, #a78bfa 0%, #8b5cf6 100%);
+            color: white;
+            box-shadow: 0 3px 8px rgba(167, 139, 250, 0.4);
+            transform: translateY(1px);
+        }
+
+        .black-key {
+            width: 13px;
+            height: 45px;
+            background: linear-gradient(to bottom, #1a202c 0%, #0d1117 100%);
+            border: 1px solid #1a202c;
+            border-radius: 0 0 2px 2px;
+            position: absolute;
+            top: 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .black-key:hover {
+            background: linear-gradient(to bottom, #374151 0%, #1f2937 100%);
+            transform: translateY(1px);
+        }
+
+        .black-key.highlighted {
+            background: linear-gradient(to bottom, #3b82f6 0%, #1d4ed8 100%);
+            box-shadow: 0 3px 8px rgba(59, 130, 246, 0.4);
+            transform: translateY(1px);
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .feedback.correct {
+            background: rgba(72, 187, 120, 0.2);
+            border: 1px solid #48bb78;
+            color: #48bb78;
+        }
+
+        .feedback.incorrect {
+            background: rgba(245, 101, 101, 0.2);
+            border: 1px solid #f56565;
+            color: #f56565 !important;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 20px auto;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .final-results {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .final-score {
+            font-size: 2rem;
+            color: #4299e1;
+            margin-bottom: 20px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .container { padding: 15px; }
+            .keyboards-container { 
+                gap: 15px;
+            }
+            .piano-keys { 
+                max-width: 350px;
+                height: 60px;
+            }
+            .white-key { 
+                width: 16px; 
+                height: 60px; 
+            }
+            .black-key { 
+                width: 10px; 
+                height: 38px; 
+            }
+            .quiz-header { flex-direction: column; }
+            .question-section { padding: 20px; }
+        }
+
+        @media (max-width: 480px) {
+            .piano-keys { 
+                max-width: 280px;
+                height: 50px;
+            }
+            .white-key { 
+                width: 13px; 
+                height: 50px; 
+            }
+            .black-key { 
+                width: 8px; 
+                height: 32px; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎹 Visual Major Scale</h1>
+            <p class="subtitle">Riconoscimento scale maggiori ad intervalli</p>
+        </header>
+
+        <!-- Menu Screen -->
+        <div class="menu-screen active" id="menuScreen">
+            <div class="config-section">
+                <h3>🎵 Scala di Partenza</h3>
+                <div class="options-grid" id="rootNoteOptions">
+                    <button class="option-btn" data-root="C">C</button>
+                    <button class="option-btn" data-root="C#">C#</button>
+                    <button class="option-btn" data-root="Db">Db</button>
+                    <button class="option-btn" data-root="D">D</button>
+                    <button class="option-btn" data-root="Eb">Eb</button>
+                    <button class="option-btn" data-root="E">E</button>
+                    <button class="option-btn" data-root="F">F</button>
+                    <button class="option-btn" data-root="F#">F#</button>
+                    <button class="option-btn" data-root="Gb">Gb</button>
+                    <button class="option-btn" data-root="G">G</button>
+                    <button class="option-btn" data-root="Ab">Ab</button>
+                    <button class="option-btn" data-root="A">A</button>
+                    <button class="option-btn" data-root="Bb">Bb</button>
+                    <button class="option-btn" data-root="B">B</button>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <h3>📏 Intervallo tra le Scale</h3>
+                <div class="interval-grid" id="intervalOptions">
+                    <button class="option-btn" data-interval="1">1/2 Tono</button>
+                    <button class="option-btn" data-interval="2">1 Tono</button>
+                    <button class="option-btn" data-interval="3">1 Tono e 1/2</button>
+                    <button class="option-btn" data-interval="4">2 Toni</button>
+                    <button class="option-btn" data-interval="5">2 Toni e 1/2</button>
+                    <button class="option-btn" data-interval="6">3 Toni</button>
+                    <button class="option-btn" data-interval="7">3 Toni e 1/2</button>
+                    <button class="option-btn" data-interval="8">4 Toni</button>
+                    <button class="option-btn" data-interval="9">4 Toni e 1/2</button>
+                    <button class="option-btn" data-interval="10">5 Toni</button>
+                    <button class="option-btn" data-interval="11">5 Toni e 1/2</button>
+                </div>
+            </div>
+
+            <button class="start-btn" id="startQuiz" disabled>🚀 Inizia Quiz (30 scale maggiori)</button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div class="quiz-screen" id="quizScreen">
+            <div class="quiz-header">
+                <button class="back-btn" id="backToMenu">← Menu</button>
+                <div class="quiz-counter" id="quizCounter">Domanda 1/30</div>
+                <div class="score" id="scoreDisplay">Punteggio: 0/0</div>
+            </div>
+
+            <div class="question-section">
+                <h2 class="question-title">Riconosci la scala maggiore rappresentata</h2>
+                
+                <div class="keyboards-container" id="keyboardsContainer">
+                    <!-- 4 keyboards will be generated by JavaScript -->
+                </div>
+
+                <div class="feedback" id="feedback" style="display: none;"></div>
+                <button class="next-btn" id="nextQuestion" style="display: none;">Prossima Scala →</button>
+            </div>
+
+            <div class="final-results" id="finalResults" style="display: none;">
+                <h2>🎉 Quiz Completato!</h2>
+                <div class="final-score" id="finalScore"></div>
+                <p id="finalMessage"></p>
+                <p id="progressionSummary"></p>
+                <button class="start-btn" id="restartQuiz">🔄 Ripeti Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Major scale intervals (always the same for major scales)
+        const MAJOR_SCALE_INTERVALS = [2, 2, 1, 2, 2, 2, 1];
+        
+        // Musical notes with both sharps and flats for variety
+        const NOTES_POOL = [
+            'C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 
+            'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'Bb', 'B'
+        ];
+        
+        // Chromatic scale for interval calculations (using sharps only for math)
+        const NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+        
+        // Enharmonic equivalents mapping
+        const ENHARMONIC_MAP = {
+            'C#': ['C#', 'Db'],
+            'D#': ['D#', 'Eb'], 
+            'F#': ['F#', 'Gb'],
+            'G#': ['G#', 'Ab'],
+            'A#': ['A#', 'Bb']
+        };
+
+        function getEnharmonicVariant(note) {
+            // Return a random enharmonic equivalent or the original note
+            // This is now only used for choosing scale keys, not scale notes
+            if (ENHARMONIC_MAP[note] && Math.random() > 0.5) {
+                const variants = ENHARMONIC_MAP[note];
+                return variants[Math.floor(Math.random() * variants.length)];
+            }
+            return note;
+        }
+        
+        const INTERVAL_NAMES = {
+            1: '1/2 Tono',
+            2: '1 Tono',
+            3: '1 Tono e 1/2',
+            4: '2 Toni',
+            5: '2 Toni e 1/2',
+            6: '3 Toni',
+            7: '3 Toni e 1/2',
+            8: '4 Toni',
+            9: '4 Toni e 1/2',
+            10: '5 Toni',
+            11: '5 Toni e 1/2'
+        };
+        
+        let currentConfig = {
+            rootNote: null,
+            interval: null
+        };
+
+        let quizState = {
+            currentQuestion: 0,
+            score: 0,
+            totalQuestions: 30,
+            scaleProgression: [],
+            answered: false,
+            keyboardOptions: []
+        };
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeMenuHandlers();
+            generate4Keyboards();
+            
+            // PWA installation
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('data:text/javascript;base64,');
+            }
+        });
+
+        function initializeMenuHandlers() {
+            // Root note selection
+            document.getElementById('rootNoteOptions').addEventListener('click', function(e) {
+                if (e.target.classList.contains('option-btn')) {
+                    document.querySelectorAll('#rootNoteOptions .option-btn').forEach(btn => 
+                        btn.classList.remove('selected'));
+                    e.target.classList.add('selected');
+                    currentConfig.rootNote = e.target.dataset.root;
+                    updateStartButton();
+                }
+            });
+
+            // Interval selection
+            document.getElementById('intervalOptions').addEventListener('click', function(e) {
+                if (e.target.classList.contains('option-btn')) {
+                    document.querySelectorAll('#intervalOptions .option-btn').forEach(btn => 
+                        btn.classList.remove('selected'));
+                    e.target.classList.add('selected');
+                    currentConfig.interval = parseInt(e.target.dataset.interval);
+                    updateStartButton();
+                }
+            });
+
+            // Start quiz
+            document.getElementById('startQuiz').addEventListener('click', startQuiz);
+            
+            // Back to menu
+            document.getElementById('backToMenu').addEventListener('click', showMenu);
+            
+            // Restart quiz
+            document.getElementById('restartQuiz').addEventListener('click', startQuiz);
+            
+            // Next question
+            document.getElementById('nextQuestion').addEventListener('click', nextQuestion);
+        }
+
+        function updateStartButton() {
+            const startBtn = document.getElementById('startQuiz');
+            startBtn.disabled = !currentConfig.rootNote || !currentConfig.interval;
+            
+            if (!startBtn.disabled) {
+                const intervalName = INTERVAL_NAMES[currentConfig.interval];
+                startBtn.textContent = `🚀 Inizia da ${currentConfig.rootNote} con intervallo ${intervalName}`;
+            }
+        }
+
+        function generatePiano(containerId, keyboardIndex) {
+            const pianoKeys = document.createElement('div');
+            pianoKeys.className = 'piano-keys';
+            pianoKeys.id = `pianoKeys${keyboardIndex}`;
+
+            // Generate 3 octaves starting from C for better visibility
+            const whiteNotes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+            
+            for (let octave = 0; octave < 3; octave++) {
+                // Add white keys
+                whiteNotes.forEach((note, index) => {
+                    const whiteKey = document.createElement('div');
+                    whiteKey.className = 'white-key';
+                    whiteKey.dataset.note = note + (octave + 3);
+                    pianoKeys.appendChild(whiteKey);
+                });
+            }
+
+            // Add black keys with precise positioning
+            const blackKeyData = [
+                // First octave
+                { note: 'C#3', afterWhiteIndex: 0 },
+                { note: 'D#3', afterWhiteIndex: 1 },
+                { note: 'F#3', afterWhiteIndex: 3 },
+                { note: 'G#3', afterWhiteIndex: 4 },
+                { note: 'A#3', afterWhiteIndex: 5 },
+                // Second octave
+                { note: 'C#4', afterWhiteIndex: 7 },
+                { note: 'D#4', afterWhiteIndex: 8 },
+                { note: 'F#4', afterWhiteIndex: 10 },
+                { note: 'G#4', afterWhiteIndex: 11 },
+                { note: 'A#4', afterWhiteIndex: 12 },
+                // Third octave
+                { note: 'C#5', afterWhiteIndex: 14 },
+                { note: 'D#5', afterWhiteIndex: 15 },
+                { note: 'F#5', afterWhiteIndex: 17 },
+                { note: 'G#5', afterWhiteIndex: 18 },
+                { note: 'A#5', afterWhiteIndex: 19 }
+            ];
+
+            blackKeyData.forEach(blackData => {
+                const blackKey = document.createElement('div');
+                blackKey.className = 'black-key';
+                blackKey.dataset.note = blackData.note;
+                blackKey.dataset.afterIndex = blackData.afterWhiteIndex;
+                
+                pianoKeys.appendChild(blackKey);
+            });
+
+            // Position black keys after render to handle responsive sizing
+            setTimeout(() => {
+                const whiteKeys = pianoKeys.querySelectorAll('.white-key');
+                const blackKeys = pianoKeys.querySelectorAll('.black-key');
+                
+                if (whiteKeys.length > 0) {
+                    const whiteKeyWidth = whiteKeys[0].offsetWidth;
+                    const whiteKeyMargin = 1;
+                    
+                    blackKeys.forEach(blackKey => {
+                        const afterIndex = parseInt(blackKey.dataset.afterIndex);
+                        const leftPosition = (afterIndex * (whiteKeyWidth + whiteKeyMargin)) + (whiteKeyWidth * 0.65);
+                        blackKey.style.left = `${leftPosition}px`;
+                    });
+                }
+            }, 10);
+
+            return pianoKeys;
+        }
+
+        function generate4Keyboards() {
+            const container = document.getElementById('keyboardsContainer');
+            container.innerHTML = '';
+
+            for (let i = 0; i < 4; i++) {
+                const keyboard = document.createElement('div');
+                keyboard.className = 'keyboard';
+                keyboard.id = `keyboard${i}`;
+                keyboard.dataset.keyboardIndex = i;
+                
+                const pianoKeys = generatePiano(container, i);
+                keyboard.appendChild(pianoKeys);
+                
+                keyboard.addEventListener('click', () => handleKeyboardClick(keyboard, i));
+                container.appendChild(keyboard);
+            }
+        }
+
+        // Correct major scale patterns for each key
+        const MAJOR_SCALES = {
+            'C': ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
+            'C#': ['C#', 'D#', 'E#', 'F#', 'G#', 'A#', 'B#'],
+            'Db': ['Db', 'Eb', 'F', 'Gb', 'Ab', 'Bb', 'C'],
+            'D': ['D', 'E', 'F#', 'G', 'A', 'B', 'C#'],
+            'D#': ['D#', 'E#', 'Fx', 'G#', 'A#', 'B#', 'Cx'],
+            'Eb': ['Eb', 'F', 'G', 'Ab', 'Bb', 'C', 'D'],
+            'E': ['E', 'F#', 'G#', 'A', 'B', 'C#', 'D#'],
+            'F': ['F', 'G', 'A', 'Bb', 'C', 'D', 'E'],
+            'F#': ['F#', 'G#', 'A#', 'B', 'C#', 'D#', 'E#'],
+            'Gb': ['Gb', 'Ab', 'Bb', 'Cb', 'Db', 'Eb', 'F'],
+            'G': ['G', 'A', 'B', 'C', 'D', 'E', 'F#'],
+            'G#': ['G#', 'A#', 'B#', 'C#', 'D#', 'E#', 'Fx'],
+            'Ab': ['Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'G'],
+            'A': ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#'],
+            'A#': ['A#', 'B#', 'Cx', 'D#', 'E#', 'Fx', 'Gx'],
+            'Bb': ['Bb', 'C', 'D', 'Eb', 'F', 'G', 'A'],
+            'B': ['B', 'C#', 'D#', 'E', 'F#', 'G#', 'A#']
+        };
+
+        function generateMajorScale(rootNote) {
+            // Use predefined correct scale patterns
+            return MAJOR_SCALES[rootNote] || MAJOR_SCALES['C'];
+        }
+
+        function generateScaleProgression(startNote, interval, count) {
+            const progression = [];
+            
+            // Convert flat notes to sharp equivalents for calculation
+            let calculationNote = startNote;
+            const flatToSharp = {
+                'Db': 'C#', 'Eb': 'D#', 'Gb': 'F#', 'Ab': 'G#', 'Bb': 'A#'
+            };
+            if (flatToSharp[startNote]) {
+                calculationNote = flatToSharp[startNote];
+            }
+            
+            let currentNoteIndex = NOTES.indexOf(calculationNote);
+            
+            for (let i = 0; i < count; i++) {
+                const currentNote = NOTES[currentNoteIndex];
+                
+                // Choose enharmonic equivalent intelligently
+                let displayNote = currentNote;
+                if (ENHARMONIC_MAP[currentNote]) {
+                    // Favor common flat keys: Bb, Eb, Ab, Db, Gb, F
+                    const preferredFlats = ['Bb', 'Eb', 'Ab', 'Db', 'Gb'];
+                    const flatVersion = ENHARMONIC_MAP[currentNote].find(note => 
+                        preferredFlats.includes(note)
+                    );
+                    
+                    if (flatVersion && Math.random() > 0.3) { // 70% chance to use flat if it's common
+                        displayNote = flatVersion;
+                    } else {
+                        // Random choice between sharp and flat
+                        const variants = ENHARMONIC_MAP[currentNote];
+                        displayNote = variants[Math.floor(Math.random() * variants.length)];
+                    }
+                }
+                
+                progression.push({
+                    rootNote: displayNote,
+                    notes: generateMajorScale(displayNote)
+                });
+                currentNoteIndex = (currentNoteIndex + interval) % 12;
+            }
+            
+            return progression;
+        }
+
+        function startQuiz() {
+            quizState.scaleProgression = generateScaleProgression(
+                currentConfig.rootNote, 
+                currentConfig.interval, 
+                quizState.totalQuestions
+            );
+            
+            quizState.currentQuestion = 0;
+            quizState.score = 0;
+            quizState.answered = false;
+            quizState.keyboardOptions = [];
+
+            generate4Keyboards();
+            
+            showQuiz();
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const currentScale = quizState.scaleProgression[quizState.currentQuestion];
+            
+            document.getElementById('quizCounter').textContent = 
+                `Domanda ${quizState.currentQuestion + 1}/${quizState.totalQuestions}`;
+            document.getElementById('scoreDisplay').textContent = 
+                `Punteggio: ${quizState.score}/${quizState.currentQuestion}`;
+            document.querySelector('.question-title').textContent = 
+                `Riconosci la scala di ${currentScale.rootNote} maggiore rappresentata`;
+
+            generateKeyboardOptions(currentScale.rootNote);
+
+            quizState.answered = false;
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('nextQuestion').style.display = 'none';
+            
+            document.querySelectorAll('.keyboard').forEach(kb => {
+                kb.classList.remove('correct', 'incorrect');
+            });
+        }
+
+        function generateKeyboardOptions(correctNote) {
+            // Generate 3 wrong answers ensuring variety of sharps and flats
+            const wrongAnswers = [];
+            const usedNotes = [correctNote];
+            
+            // Available notes for wrong answers
+            const availableNotes = ['C', 'C#', 'Db', 'D', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
+            
+            while (wrongAnswers.length < 3) {
+                const randomNote = availableNotes[Math.floor(Math.random() * availableNotes.length)];
+                
+                // Avoid using the same enharmonic as the correct answer
+                const flatToSharp = {'Db': 'C#', 'Eb': 'D#', 'Gb': 'F#', 'Ab': 'G#', 'Bb': 'A#'};
+                const normalizeForComparison = (note) => flatToSharp[note] || note;
+                
+                const isAlreadyUsed = usedNotes.some(used => 
+                    normalizeForComparison(used) === normalizeForComparison(randomNote)
+                );
+                
+                if (!isAlreadyUsed) {
+                    wrongAnswers.push(randomNote);
+                    usedNotes.push(randomNote);
+                }
+            }
+
+            const allOptions = [
+                { note: correctNote, correct: true },
+                ...wrongAnswers.map(note => ({ note, correct: false }))
+            ];
+
+            quizState.keyboardOptions = allOptions.sort(() => Math.random() - 0.5);
+
+            quizState.keyboardOptions.forEach((option, index) => {
+                const scaleNotes = generateMajorScale(option.note);
+                highlightScaleOnKeyboard(index, scaleNotes);
+            });
+        }
+
+        function highlightScaleOnKeyboard(keyboardIndex, scaleNotes) {
+            const keyboard = document.getElementById(`keyboard${keyboardIndex}`);
+            const keys = keyboard.querySelectorAll('.white-key, .black-key');
+            keys.forEach(key => {
+                key.classList.remove('highlighted');
+            });
+
+            scaleNotes.forEach(note => {
+                const keys = keyboard.querySelectorAll('.white-key, .black-key');
+                keys.forEach(key => {
+                    const keyNote = key.dataset.note.replace(/[0-9]/g, '');
+                    
+                    // Map theoretical notes to keyboard notes
+                    const noteMap = {
+                        'E#': 'F', 'B#': 'C', 'Cb': 'B', 'Fb': 'E',
+                        'Fx': 'G', 'Cx': 'D', 'Gx': 'A', 'Dx': 'E', 'Ax': 'B', 'Ex': 'F#'
+                    };
+                    
+                    const keyboardNote = noteMap[note] || note;
+                    const flatToSharp = {'Db': 'C#', 'Eb': 'D#', 'Gb': 'F#', 'Ab': 'G#', 'Bb': 'A#'};
+                    const normalizedKeyNote = flatToSharp[keyNote] || keyNote;
+                    const normalizedScaleNote = flatToSharp[keyboardNote] || keyboardNote;
+                    
+                    if (normalizedKeyNote === normalizedScaleNote) {
+                        key.classList.add('highlighted');
+                    }
+                });
+            });
+        }
+
+        function handleKeyboardClick(keyboard, keyboardIndex) {
+            if (quizState.answered) return;
+
+            quizState.answered = true;
+            const selectedOption = quizState.keyboardOptions[keyboardIndex];
+            const currentScale = quizState.scaleProgression[quizState.currentQuestion];
+
+            if (selectedOption.correct) {
+                quizState.score++;
+                keyboard.classList.add('correct');
+                showFeedback(`Corretto! È la scala di ${currentScale.rootNote} Maggiore 🎉`, 'correct');
+                
+                // Auto advance to next question after 1.5 seconds
+                if (quizState.currentQuestion < quizState.totalQuestions - 1) {
+                    setTimeout(() => {
+                        nextQuestion();
+                    }, 1500);
+                } else {
+                    setTimeout(finishQuiz, 2000);
+                }
+            } else {
+                keyboard.classList.add('incorrect');
+                quizState.keyboardOptions.forEach((option, index) => {
+                    if (option.correct) {
+                        document.getElementById(`keyboard${index}`).classList.add('correct');
+                    }
+                });
+                
+                // Show note names for both scales
+                const correctScale = generateMajorScale(currentScale.rootNote);
+                const selectedScale = generateMajorScale(selectedOption.note);
+                
+                const correctNotes = correctScale.join(' - ');
+                const selectedNotes = selectedScale.join(' - ');
+                
+                showFeedback(`Sbagliato! Hai scelto ${selectedOption.note} Maggiore (${selectedNotes}). Era ${currentScale.rootNote} Maggiore (${correctNotes}).`, 'incorrect');
+                
+                // Show next button only for incorrect answers
+                if (quizState.currentQuestion < quizState.totalQuestions - 1) {
+                    document.getElementById('nextQuestion').style.display = 'block';
+                } else {
+                    setTimeout(finishQuiz, 2000);
+                }
+            }
+        }
+
+        function showFeedback(message, type) {
+            const feedback = document.getElementById('feedback');
+            feedback.textContent = message;
+            feedback.className = `feedback ${type}`;
+            feedback.style.display = 'block';
+        }
+
+        function nextQuestion() {
+            quizState.currentQuestion++;
+            showQuestion();
+        }
+
+        function finishQuiz() {
+            const percentage = Math.round((quizState.score / quizState.totalQuestions) * 100);
+            
+            document.getElementById('finalScore').textContent = 
+                `${quizState.score}/${quizState.totalQuestions} (${percentage}%)`;
+            
+            const firstScale = quizState.scaleProgression[0].rootNote;
+            const lastScale = quizState.scaleProgression[quizState.totalQuestions - 1].rootNote;
+            document.getElementById('progressionSummary').textContent = 
+                `Progressione completata: da ${firstScale} a ${lastScale} (${INTERVAL_NAMES[currentConfig.interval]})`;
+            
+            let message = '';
+            if (percentage >= 90) {
+                message = '🏆 Eccellente! Hai padroneggiato questa progressione di scale!';
+            } else if (percentage >= 75) {
+                message = '🎖️ Molto bene! Ottima conoscenza delle scale maggiori.';
+            } else if (percentage >= 60) {
+                message = '👍 Buon lavoro! Continua a praticare le progressioni.';
+            } else {
+                message = '📚 Continua a studiare le scale maggiori, migliorai!';
+            }
+            
+            document.getElementById('finalMessage').textContent = message;
+            document.getElementById('finalResults').style.display = 'block';
+            document.querySelector('.question-section').style.display = 'none';
+        }
+
+        function showMenu() {
+            document.getElementById('menuScreen').classList.add('active');
+            document.getElementById('quizScreen').classList.remove('active');
+        }
+
+        function showQuiz() {
+            document.getElementById('menuScreen').classList.remove('active');
+            document.getElementById('quizScreen').classList.add('active');
+            document.getElementById('finalResults').style.display = 'none';
+            document.querySelector('.question-section').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
